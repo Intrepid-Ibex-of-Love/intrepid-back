@@ -1,0 +1,20 @@
+{
+   "name": "back",
+   "version": "0.0.1",
+   "description": "Perfect API for a perfect platform",
+   "devDependencies": {
+      "@types/node": "^8.10.66",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "body-parser": "^1.18.1",
+      "express": "^4.15.4",
+      "mysql": "^2.14.1",
+      "reflect-metadata": "^0.1.13",
+      "typeorm": "0.2.32"
+   },
+   "scripts": {
+      "start": "ts-node src/server.ts"
+   }
+}
