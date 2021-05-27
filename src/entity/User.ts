@@ -26,6 +26,12 @@ export class User {
     })
     email: string;
 
+    @Column({
+        type: 'number',
+        length: 10
+    })
+    post_code: string;
+
 
     @Column({
         type: 'varchar',
