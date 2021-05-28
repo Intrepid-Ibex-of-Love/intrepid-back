@@ -27,10 +27,9 @@ export class User {
     email: string;
 
     @Column({
-        type: 'number',
-        length: 10
+        type: 'int'
     })
-    post_code: string;
+    post_code: number;
 
 
     @Column({
