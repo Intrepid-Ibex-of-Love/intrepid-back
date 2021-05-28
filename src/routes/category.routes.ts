@@ -1,6 +1,6 @@
 import {CategoryController} from "../controller/CategoryController";
 
-export const Routes = [{
+export const CategoryRouter = [{
     method: "get",
     route: "/categories",
     controller: CategoryController,

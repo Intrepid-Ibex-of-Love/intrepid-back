@@ -1,6 +1,6 @@
 import {UserController} from "../controller/UserController";
 
-export const Routes = [{
+export const UserRouter = [{
     method: "get",
     route: "/users",
     controller: UserController,

@@ -1,6 +1,6 @@
 import {ProductController} from "../controller/ProductController";
 
-export const Routes = [{
+export const ProductRouter = [{
     method: "get",
     route: "/products",
     controller: ProductController,
