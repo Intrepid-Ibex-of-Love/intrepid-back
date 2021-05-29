@@ -9,6 +9,7 @@ import { ProductRouter } from "./routes/product.routes";
 import { User } from "./entity/User"
 import { Category } from "./entity/Category"
 import { Product } from "./entity/Product"
+import * as cors from 'cors';
 
 
 createConnection({
@@ -28,7 +29,7 @@ createConnection({
     // create express app
     const app = express();
     app.use(bodyParser.json());
-
+    app.use(cors());
     // register express routes from defined application routes
     UserRouter.forEach(route => {
         (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {

@@ -28,6 +28,17 @@ export class Product {
     })
     photo: string;
 
+    @Column({
+        type: Date,
+    })
+    day_start: Date;
+
+
+    @Column({
+        type: Date,
+    })
+    day_finish: Date;
+    
     @ManyToOne(()=>User, user => user.id)
     user: User;
 
