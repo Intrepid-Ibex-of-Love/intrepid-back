@@ -1,25 +1,31 @@
-import { getRepository } from "typeorm";
-import { NextFunction, Request, Response } from "express";
+// import { getRepository } from "typeorm";
+// import { NextFunction, Request, Response } from "express";
 import { UserController } from "./UserController";
-import { User } from "../entity/User";
+// import { User } from "../entity/User";
+import * as jwt from "jsonwebtoken"
 
 import * as bcrypt from 'bcrypt';
 
 export class AuthController {
     userController = new UserController()
-    // nextFunction = new NextFunction();
     login(req, res) {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                return typeof (userFound) != undefined || userFound || bcrypt.compareSync(password, userFound.password)
-                    ? res.send('Logueado Correctamente!')
-                    : res.status(404).send('email o usuario incorrectos')
+                // return typeof (userFound) != undefined || userFound || bcrypt.compareSync(password, userFound.password)
+                //     ? res.send('Logueado Correctamente!')
+                //     : res.status(404).send('email o usuario incorrectos')
 
-                // if(userFound != undefined ) return res.status(404).send('email o usuario incorrectos');
-                // if(!userFound.password) return res.status(404).send('email o usuario incorrectos');
+                if(!userFound) return res.status(404).send('1email o usuario incorrectos');
+                if(!bcrypt.compare(password, userFound.password)) return res.status(404).send('2email o usuario incorrectos');
 
-                // return res.send('Logueado Correctamente')
+
+                    const token = jwt.sign({email: userFound.email}, "fraseSupeSecreta");
+
+                    return res.json({
+                        user: userFound,
+                        token: token
+                    })
             })
 
     }
@@ -38,15 +44,6 @@ export class AuthController {
                             return res.send("usuario creado con éxito")
                         })
                 }
-
-                // return typeof (userFound) != undefined || userFound
-                //     ? res.send('Ya hay una cuenta registrada con este email')
-                //     :
-
-                // if(userFound != undefined ) return res.status(404).send('email o usuario incorrectos');
-                // if(!userFound.password) return res.status(404).send('email o usuario incorrectos');
-
-                // return res.send('Logueado Correctamente')
             })
 
 
