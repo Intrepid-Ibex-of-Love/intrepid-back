@@ -10,12 +10,20 @@ export class UserController {
         return this.userRepository.find();
     }
 
-    async one(request: Request, response: Response, next: NextFunction) {
+    // async one(request: Request, response: Response, next: NextFunction) {
+        async one(request: Request, response: Response) {
+        // return this.userRepository.findOne(request.params.id);
         return this.userRepository.findOne(request.params.id);
     }
 
-    async save(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.save(request.body);
+    async oneEmail(request: Request, response: Response) {
+        return this.userRepository.findOne({email: request.email});
+    }
+
+    // async save(request: Request, response: Response, next: NextFunction) {
+    async save(request: Request, response: Response) {
+        console.log(request);
+        return this.userRepository.save(request);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
