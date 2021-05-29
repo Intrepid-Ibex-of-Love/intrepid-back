@@ -22,7 +22,8 @@ export class UserController {
 
     // async save(request: Request, response: Response, next: NextFunction) {
     async save(request: Request, response: Response) {
-        return this.userRepository.save(request.body);
+        console.log(request);
+        return this.userRepository.save(request);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
