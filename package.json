@@ -8,6 +8,8 @@
       "typescript": "3.3.3333"
    },
    "dependencies": {
+      "@types/bcrypt": "^5.0.0",
+      "bcrypt": "^5.0.1",
       "body-parser": "^1.18.1",
       "express": "^4.15.4",
       "mysql": "^2.14.1",
