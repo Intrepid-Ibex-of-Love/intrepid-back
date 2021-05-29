@@ -1,6 +1,7 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Product} from "../entity/Product";
+import {ProductMedia} from "../entity/ProdutcMedia";
 
 export class ProductController {
 
@@ -15,7 +16,17 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.save(request.body);
+
+        /* const post = await postRepository.findOne(1, { relations: ["categories"] });
+        post.categories.push(category);
+        await postRepository.save(post); */
+        const productSave = await this.productRepository.save(request.body);
+        productSave.productMedias = [];
+        productSave.productMedias.push({uri:'a',productId:productSave.id});
+        return await this.productRepository.save(productSave);
+        //return console.log(productSave)
+
+        
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

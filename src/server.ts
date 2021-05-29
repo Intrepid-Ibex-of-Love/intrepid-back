@@ -6,10 +6,11 @@ import { Request, Response } from "express";
 import { UserRouter } from "./routes/user.routes";
 import { CategoryRouter } from "./routes/category.routes";
 import { ProductRouter } from "./routes/product.routes";
-import { User } from "./entity/User"
-import { Category } from "./entity/Category"
-import { Product } from "./entity/Product"
+import { User } from "./entity/User";
+import { Category } from "./entity/Category";
+import { Product } from "./entity/Product";
 import * as cors from 'cors';
+import { ProductMedia } from "./entity/ProdutcMedia";
 
 
 createConnection({
@@ -21,7 +22,7 @@ createConnection({
     "database": "community",
     "synchronize": true,
     "logging": false,
-    "entities": [User, Category, Product],
+    "entities": [User, Category, Product, ProductMedia],
 }
 ).then(async connection => {
 
@@ -30,6 +31,7 @@ createConnection({
     const app = express();
     app.use(bodyParser.json());
     app.use(cors());
+
     // register express routes from defined application routes
     UserRouter.forEach(route => {
         (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {

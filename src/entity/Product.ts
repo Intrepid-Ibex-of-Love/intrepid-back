@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm";
 import { Category } from "./Category";
+import { ProductMedia } from "./ProdutcMedia";
 import { User } from "./User";
 
 @Entity()
@@ -22,17 +23,9 @@ export class Product {
     description: string;
 
     @Column({
-        type: 'varchar',
-        length: 200,
-        nullable: true
-    })
-    photo: string;
-
-    @Column({
         type: Date,
     })
     day_start: Date;
-
 
     @Column({
         type: Date,
@@ -42,9 +35,12 @@ export class Product {
     @ManyToOne(()=>User, user => user.id)
     user: User;
 
+    @OneToMany(()=>ProductMedia, productMedia => productMedia.product)
+    productMedias: ProductMedia[];
+
     @ManyToMany(()=>Category)
     @JoinTable()
-    categories : Category[]
+    categories : Category[];
 
     
 }
