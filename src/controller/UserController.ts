@@ -16,8 +16,9 @@ export class UserController {
         return this.userRepository.findOne(request.params.id);
     }
 
-    async oneEmail(request: Request, response: Response) {
-        return this.userRepository.findOne({email: request.email});
+    async oneEmail(request: Request, response: Response): Promise<any> {
+        let userFound = await this.userRepository.findOne({email: request.email});
+        return userFound;
     }
 
     // async save(request: Request, response: Response, next: NextFunction) {
