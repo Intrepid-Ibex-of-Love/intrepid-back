@@ -12,27 +12,20 @@ export class AuthController {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                // return typeof (userFound) != undefined || userFound || bcrypt.compareSync(password, userFound.password)
-                //     ? res.send('Logueado Correctamente!')
-                //     : res.status(404).send('email o usuario incorrectos')
                 let a = bcrypt.compare(password, userFound.password);
                 console.log(a);
 
-                if(!userFound) {
+                if (!userFound) {
                     return res.status(404).send('email o usuario incorrectos');
-                }else if(!a) {
-                    return res.status(404).send('email o usuario incorrectos');
-                }else{
-                    const token = jwt.sign({email: userFound.email}, "fraseSupeSecreta");
+                }
 
-                    return res.json({
-                        user: userFound,
-                        token: token
-                    })
-                } 
-
-
-                    
+                let validatePassword = bcrypt.compareSync(password, userFound.password);
+                if (validatePassword) {
+                    let token = jwt.sign({ email: userFound.email }, "fraseSupeSecreta");
+                    res.status(200).send(userFound);
+                } else {
+                    res.status(400).send('¡usuario o contraseña incorrectos!');
+                }
             })
 
     }
