@@ -29,7 +29,7 @@ export class AuthController {
                         user: userFound,
                         token: token
                     })
-                }
+                } 
 
 
                     
