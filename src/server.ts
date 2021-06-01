@@ -11,7 +11,7 @@ import { User } from "./entity/User";
 import { Category } from "./entity/Category";
 import { Product } from "./entity/Product";
 import * as cors from 'cors';
-import { ProductMedia } from "./entity/ProdutcMedia";
+import { ProductMedia } from "./entity/Media";
 
 
 

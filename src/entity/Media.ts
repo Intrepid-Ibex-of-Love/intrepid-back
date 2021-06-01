@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "ty
 import { Product } from "./Product";
 
 @Entity()
-export class ProductMedia {
+export class Media {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,6 +13,6 @@ export class ProductMedia {
     })
     uri: string;
 
-    @ManyToOne(() => Product, product => product.productMedias)
+    @ManyToOne(() => Product, product => product.medias)
     product: Product;
 }
