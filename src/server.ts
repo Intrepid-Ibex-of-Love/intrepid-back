@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
@@ -9,68 +9,69 @@ import { CategoryRouter } from "./routes/category.routes";
 import { ProductRouter } from "./routes/product.routes";
 import * as cors from 'cors';
 
-createConnection().then(async connection => {
 
-    const port = 3002;
-    // create express app
-    const app = express();
-    app.use(bodyParser.json());
-    app.use(cors());
+createConnection()
 
-    // register express routes from defined application routes
-    UserRouter.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+    .then(async connection => {
 
-            } else if (result !== null && result !== undefined) {
-                res.json(result);
-            }
+        const port = 3002;
+        // create express app
+        const app = express();
+        app.use(bodyParser.json());
+        app.use(cors());
+
+        // register express routes from defined application routes
+        UserRouter.forEach(route => {
+            (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+                const result = (new (route.controller as any))[route.action](req, res, next);
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+
+                } else if (result !== null && result !== undefined) {
+                    res.json(result);
+                }
+            });
         });
-    });
-    CategoryRouter.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+        CategoryRouter.forEach(route => {
+            (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+                const result = (new (route.controller as any))[route.action](req, res, next);
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
 
-            } else if (result !== null && result !== undefined) {
-                res.json(result);
-            }
+                } else if (result !== null && result !== undefined) {
+                    res.json(result);
+                }
+            });
         });
-    });
-    ProductRouter.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+        ProductRouter.forEach(route => {
+            (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+                const result = (new (route.controller as any))[route.action](req, res, next);
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
 
-            } else if (result !== null && result !== undefined) {
-                res.json(result);
-            }
+                } else if (result !== null && result !== undefined) {
+                    res.json(result);
+                }
+            });
         });
-    });
 
-    AuthRouter.forEach(route => {
-        (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next);
-            if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
+        AuthRouter.forEach(route => {
+            (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
+                const result = (new (route.controller as any))[route.action](req, res, next);
+                if (result instanceof Promise) {
+                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
 
-            } else if (result !== null && result !== undefined) {
-                res.json(result);
-            }
+                } else if (result !== null && result !== undefined) {
+                    res.json(result);
+                }
+            });
         });
-    });
-    // setup express app here
-    // ...
+        // setup express app here
+        // ...
 
-    // start express server
-    app.listen(port, () => {
-        console.log(`Running.. ${port}`);
-    });
+        // start express server
+        app.listen(port, () => {
+            console.log(`Running.. ${port}`);
+        });
 
 }).catch(error => console.log(error));
-
-//Añadir recursión para reconectar a bbdd.
