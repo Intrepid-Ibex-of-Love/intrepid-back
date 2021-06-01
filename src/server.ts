@@ -79,3 +79,4 @@ createConnection().then(async connection => {
 
 }).catch(error => console.log(error));
 
+//Añadir recursión para reconectar a bbdd.
