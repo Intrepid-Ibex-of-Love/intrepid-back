@@ -22,7 +22,8 @@ export class AuthController {
                 let validatePassword = bcrypt.compareSync(password, userFound.password);
                 if (validatePassword) {
                     let token = jwt.sign({ email: userFound.email }, "fraseSupeSecreta");
-                    res.status(200).send(userFound);
+                    let user = {user:userFound, token: token}
+                    res.status(200).send(user);
                 } else {
                     res.status(400).send('¡usuario o contraseña incorrectos!');
                 }

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm";
 import { Category } from "./Category";
-import { ProductMedia } from "./ProdutcMedia";
+import { Media} from "./Media";
 import { User } from "./User";
 
 @Entity()
@@ -35,8 +35,9 @@ export class Product {
     @ManyToOne(()=>User, user => user.id)
     user: User;
 
-    @OneToMany(()=>ProductMedia, productMedia => productMedia.product)
-    productMedias: ProductMedia[];
+    @OneToMany(()=>Media, media => media.product, { cascade: ['insert', 'update'] })
+    public medias: Media[];
+
 
     @ManyToMany(()=>Category)
     @JoinTable()

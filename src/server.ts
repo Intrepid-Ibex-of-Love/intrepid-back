@@ -7,13 +7,7 @@ import { UserRouter } from "./routes/user.routes";
 import { AuthRouter } from "./routes/auth.routes";
 import { CategoryRouter } from "./routes/category.routes";
 import { ProductRouter } from "./routes/product.routes";
-import { User } from "./entity/User";
-import { Category } from "./entity/Category";
-import { Product } from "./entity/Product";
 import * as cors from 'cors';
-import { ProductMedia } from "./entity/ProdutcMedia";
-
-
 
 createConnection().then(async connection => {
 
