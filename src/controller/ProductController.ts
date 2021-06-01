@@ -16,7 +16,10 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return await this.productRepository.save(request.body);
+        const productSave = await this.productRepository.save(request.body);
+        productSave.productMedias = [];
+        productSave.productMedias.push({uri:'a',productId:productSave.id});
+        return await this.productRepository.save(productSave);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
