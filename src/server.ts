@@ -14,6 +14,7 @@ import * as cors from 'cors';
 import { ProductMedia } from "./entity/ProdutcMedia";
 
 
+
 createConnection().then(async connection => {
 
     const port = 3002;

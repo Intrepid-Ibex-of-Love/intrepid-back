@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 
-module.exports = {
+export default {
         "type": "mysql",
         "host": process.env.TYPEORM_HOST,
         "port": 3306,
