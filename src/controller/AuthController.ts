@@ -13,8 +13,6 @@ export class AuthController {
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
                 let a = bcrypt.compare(password, userFound.password);
-                console.log(a);
-
                 if (!userFound) {
                     return res.status(404).send('email o usuario incorrectos');
                 }
@@ -35,7 +33,6 @@ export class AuthController {
         let { name, last_name, email, post_code, password, role } = req.body;
         this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                console.log(userFound)
                 if (userFound) {
                     return res.send('Ya hay una cuenta registrada con este email!')
                 } else {
