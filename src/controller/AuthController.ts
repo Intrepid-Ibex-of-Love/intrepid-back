@@ -12,14 +12,12 @@ export class AuthController {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                let a = bcrypt.compare(password, userFound.password);
-                console.log(a);
-
                 if (!userFound) {
                     return res.status(404).send('email o usuario incorrectos');
                 }
 
                 let validatePassword = bcrypt.compareSync(password, userFound.password);
+                console.log(validatePassword);
                 if (validatePassword) {
                     let token = jwt.sign({ email: userFound.email }, "fraseSupeSecreta");
                     res.status(200).send(userFound);
