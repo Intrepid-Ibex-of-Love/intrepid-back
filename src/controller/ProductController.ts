@@ -1,11 +1,12 @@
-import {getRepository} from "typeorm";
+import {createQueryBuilder, getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import {Product} from "../entity/Product";
-import {Media} from "../entity/Media";
+import { User } from "../entity/User";
 
 export class ProductController {
 
     private productRepository = getRepository(Product);
+    userRepository = getRepository(User);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.productRepository.find();
@@ -18,13 +19,30 @@ export class ProductController {
     async save(request: Request, response: Response, next: NextFunction) {
         const productSave = await this.productRepository.save(request.body);
         productSave.productMedias = [];
-        productSave.productMedias.push({uri:'a',productId:productSave.id});
+        productSave.productMedias.push({uri:'a' ,productId:productSave.id});
         return await this.productRepository.save(productSave);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let userToRemove = await this.productRepository.findOne(request.params.id);
-        await this.productRepository.remove(userToRemove);
+        let productToRemove = await this.productRepository.findOne(request.params.id);
+        await this.productRepository.remove(productToRemove);
+    }
+
+    async getProductByUser(request: Request, response: Response, next: NextFunction){
+
+        
+        let userId = this.userRepository.find({id: request.params.id});
+        
+        //let products = await this.productRepository.createQueryBuilder().
+        //console.log(products);
+        
+        return userId;
+/*         let products = createQueryBuilder('product')
+                        .select('*')
+                        .where(`id=${u}`);
+        console.log(products); */
+        //return await products;
+
     }
 
 }
