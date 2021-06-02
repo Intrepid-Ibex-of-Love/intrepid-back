@@ -20,7 +20,7 @@ export const ProductRouter = [{
 },
 {
     method: "get",
-    route: "/products-user/:id",
+    route: "/products/user/:id",
     controller: ProductController, 
     action: "getProductByUser"
 }
