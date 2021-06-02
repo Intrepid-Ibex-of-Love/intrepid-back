@@ -31,17 +31,15 @@ export class ProductController {
     async getProductByUser(request: Request, response: Response, next: NextFunction){
 
         
-        let userId = this.userRepository.find({id: request.params.id});
-        
-        //let products = await this.productRepository.createQueryBuilder().
-        //console.log(products);
-        
-        return userId;
-/*         let products = createQueryBuilder('product')
-                        .select('*')
-                        .where(`id=${u}`);
-        console.log(products); */
-        //return await products;
+        let userId = request.params.id;
+
+        let products = await createQueryBuilder(Product, "product")
+                        .select("*")
+                        .innerJoin(User, "user", "product.userId = user.id")
+                        .where(`product.userId='${userId}'`)
+                        .getRawMany();
+
+        return products;
 
     }
 
