@@ -35,6 +35,9 @@ export class ProductController {
         
         //let products = await this.productRepository.createQueryBuilder().
         //console.log(products);
+
+        let product = await this.productRepository.find({where: {name : "pepe"}})
+        console.log( product);
         
         return userId;
 /*         let products = createQueryBuilder('product')

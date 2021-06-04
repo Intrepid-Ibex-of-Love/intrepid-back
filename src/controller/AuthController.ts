@@ -12,15 +12,20 @@ export class AuthController {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                let a = bcrypt.compare(password, userFound.password);
                 if (!userFound) {
                     return res.status(404).send('email o usuario incorrectos');
                 }
 
+                if (userFound.status == "no_verify") {
+                    return res.status(401).send({
+                        message: "Cuenta pendiente. Verifique su correo electrónico!",
+                    });
+                }
+
                 let validatePassword = bcrypt.compareSync(password, userFound.password);
                 if (validatePassword) {
-                    let token = jwt.sign({ email: userFound.email }, "fraseSupeSecreta");
-                    let user = {user:userFound, token: token}
+                    let token = jwt.sign({ email: userFound.email }, process.env.BCRYPT_FRASE);
+                    let user = { user: userFound, token: token }
                     res.status(200).send(user);
                 } else {
                     res.status(400).send('¡usuario o contraseña incorrectos!');
