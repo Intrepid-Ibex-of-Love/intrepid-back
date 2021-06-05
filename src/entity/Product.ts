@@ -13,7 +13,7 @@ export class Product {
         type: 'varchar',
         length: 200
     })
-    name: string;
+    product_name: string;
 
     @Column({
         type: 'varchar',
@@ -32,7 +32,12 @@ export class Product {
     })
     day_finish: Date;
     
-    @ManyToOne(()=>User, user => user.id)
+    @Column({
+        type: "int",
+    })
+    userId: number
+
+    @ManyToOne(()=>User, user => user.id, {cascade: true})
     user: User;
 
     @OneToMany(()=>Media, media => media.product, { cascade: ['insert', 'update'] })

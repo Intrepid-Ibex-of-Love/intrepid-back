@@ -57,6 +57,6 @@ export class User {
     })
     role: string;
 
-    @OneToMany(() => Product, product => product.id)
+    @OneToMany(() => Product, product => product.id, {cascade: true})
     products: Product[];
 }

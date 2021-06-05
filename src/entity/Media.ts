@@ -8,8 +8,7 @@ export class Media {
     id: number;
 
     @Column({
-        type: 'varchar',
-        length: 2083
+        type: 'blob',
     })
     uri: string;
 

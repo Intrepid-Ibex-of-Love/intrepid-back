@@ -17,10 +17,26 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const productSave = await this.productRepository.save(request.body);
-        productSave.productMedias = [];
-        productSave.productMedias.push({uri:'a' ,productId:productSave.id});
-        return await this.productRepository.save(productSave);
+
+        let userId = request.body.userId;
+
+        let createProduct = await createQueryBuilder()
+                        .insert()
+                        .into(Product)
+                        .values(
+                            {
+                            product_name: request.body.name,
+                            description: request.body.description,
+                            day_start: request.body.day_start,
+                            day_finish: request.body.day_finish,
+                            userId: userId
+                            }
+                        )
+                        .execute();
+
+        /* productSave.productMedias = [];
+        productSave.productMedias.push({uri:'a' ,productId:productSave.id}); */
+        return createProduct;
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
@@ -35,7 +51,7 @@ export class ProductController {
 
         let products = await createQueryBuilder(Product, "product")
                         .select("*")
-                        .innerJoin(User, "user", "product.userId = user.id")
+                        .leftJoin(User, "user", "product.userId = user.id")
                         .where(`product.userId='${userId}'`)
                         .getRawMany();
 
