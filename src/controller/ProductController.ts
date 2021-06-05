@@ -1,6 +1,6 @@
-import {createQueryBuilder, getRepository} from "typeorm";
-import {NextFunction, Request, Response} from "express";
-import {Product} from "../entity/Product";
+import { createQueryBuilder, getRepository } from "typeorm";
+import { NextFunction, Request, Response } from "express";
+import { Product } from "../entity/Product";
 import { User } from "../entity/User";
 
 export class ProductController {

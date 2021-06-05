@@ -1,7 +1,3 @@
-// require("dotenv").config();
-// import * as dotenv from "dotenv";
-// import * as  nodemailer from 'nodemailer';
-
 import nodemailer = require('nodemailer');
 
 // export const transporter = nodemailer.createTransport({
@@ -13,6 +9,8 @@ import nodemailer = require('nodemailer');
 //         pass: 'EqgDVyVvQux7wA46xs'
 //     }
 // });
+
+console.log(process.env.TYPEORM_TYPE);
 
 export const transporter= nodemailer.createTransport({
         host: 'smtp.gmail.com',
