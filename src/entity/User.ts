@@ -57,6 +57,19 @@ export class User {
     })
     role: string;
 
+    
+    @Column({
+        type: "enum",
+        enum: ["verify", "no_verify"],
+        default: "no_verify"
+    })
+    status: string 
+
+    // @Column({
+    //     type: 'decimal'
+    // })
+    // confirmation_code: string;
+
     @OneToMany(() => Product, product => product.id, {cascade: true})
     products: Product[];
 }

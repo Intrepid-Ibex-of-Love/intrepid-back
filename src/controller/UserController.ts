@@ -21,9 +21,13 @@ export class UserController {
         return userFound;
     }
 
+    async oneConfirmationCode(request: Request, response: Response): Promise<any> {
+        let userFound = await this.userRepository.findOne({password: request.confirmationCode});
+        return userFound;
+    }
+
     // async save(request: Request, response: Response, next: NextFunction) {
     async save(request: Request, response: Response) {
-        console.log(request);
         return this.userRepository.save(request);
     }
 

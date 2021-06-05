@@ -5,28 +5,56 @@ import { UserController } from "./UserController";
 import * as jwt from "jsonwebtoken"
 
 import * as bcrypt from 'bcrypt';
+// import { SendVerifyController } from "./sendVerifyController"
+import * as nodemailer from 'nodemailer';
+import { transporter } from './sendVerifyController'
 
 export class AuthController {
     userController = new UserController()
+    // sendVerifyController = new SendVerifyController()
     login(req, res) {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
-                let a = bcrypt.compare(password, userFound.password);
                 if (!userFound) {
                     return res.status(404).send('email o usuario incorrectos');
                 }
 
+                if (userFound.status == "no_verify") {
+                    return res.status(401).send({
+                        message: "Cuenta pendiente. Verifique su correo electrónico!",
+                    });
+                }
+
                 let validatePassword = bcrypt.compareSync(password, userFound.password);
                 if (validatePassword) {
-                    let token = jwt.sign({ email: userFound.email }, "fraseSupeSecreta");
-                    let user = {user:userFound, token: token}
+                    let token = jwt.sign({ email: userFound.email }, process.env.BCRYPT_FRASE);
+                    let user = { user: userFound, token: token }
                     res.status(200).send(user);
                 } else {
                     res.status(400).send('¡usuario o contraseña incorrectos!');
                 }
             })
 
+    }
+
+    verifyUser(req, res) {
+        let { confirmation_code } = req.body;
+        this.userController.oneConfirmationCode({ confirmation_code }, res)
+            .then((user) => {
+                if (!user) {
+                    return res.status(404).send({ message: "User Not found." });
+                }
+
+                user.status = "verify";
+                user.save((err) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                });
+            })
+            .catch((e) => console.log("error", e));
     }
 
     register(req, res) {
@@ -38,11 +66,30 @@ export class AuthController {
                 } else {
                     const passwordHash = bcrypt.hashSync(password, 4);
                     this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
-                        .then(newUser => {
-                            return res.send("usuario creado con éxito")
-                        })
+                    
+                    .then(async newUser => {
+                        await transporter.sendMail({
+                            // from: '"Fred Foo 👻" <tenegrocomomialma@gmail.com>', // sender address
+                            // to: "alejandroasc96@gmail.com", // list of receivers
+                            // subject: "Hello ✔", // Subject line
+                            // text: "Hello world?", // plain text body
+                            // html: "<b>Hello world?</b>", // html body
+
+                            from: `<${process.env.GMAIL_USER}>`,
+                                to: `<${newUser.email}>`,
+                                subject: "Por favor confirma tu email",
+                                html: `<h1>Confirmación de Email</h1>
+                                        <h2>Hola ${name}</h2>
+                                        <p>Gracias por usar nuestra aplicación por favor confirma tu cuenta ingresando en el siguiente enlace</p>
+                                        <a href=http://localhost:8081/confirm/${newUser.password}> Haz click aquí </a>
+                                        </div>`,
+                            
+                        });
+                        return res.send('okey');
+                    })
                 }
             })
+        // .then(send => console.log(send))
 
 
 
