@@ -5,12 +5,13 @@ import { UserController } from "./UserController";
 import * as jwt from "jsonwebtoken"
 
 import * as bcrypt from 'bcrypt';
-import { SendVerifyController } from "./sendVerifyController"
+// import { SendVerifyController } from "./sendVerifyController"
 import * as nodemailer from 'nodemailer';
+import { transporter } from './sendVerifyController'
 
 export class AuthController {
     userController = new UserController()
-    sendVerifyController = new SendVerifyController()
+    // sendVerifyController = new SendVerifyController()
     login(req, res) {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
@@ -65,15 +66,27 @@ export class AuthController {
                 } else {
                     const passwordHash = bcrypt.hashSync(password, 4);
                     this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
-                        .then(newUser => {
-                            this.sendVerifyController.sendConfirmationEmail(
-                                newUser.name,
-                                newUser.email,
-                                newUser.password
+                    
+                    .then(async newUser => {
+                        await transporter.sendMail({
+                            // from: '"Fred Foo 👻" <tenegrocomomialma@gmail.com>', // sender address
+                            // to: "alejandroasc96@gmail.com", // list of receivers
+                            // subject: "Hello ✔", // Subject line
+                            // text: "Hello world?", // plain text body
+                            // html: "<b>Hello world?</b>", // html body
 
-                            )
-                            return res.send('okey');
-                        })
+                            from: `<${process.env.GMAIL_USER}>`,
+                                to: `<${newUser.email}>`,
+                                subject: "Por favor confirma tu email",
+                                html: `<h1>Confirmación de Email</h1>
+                                        <h2>Hola ${name}</h2>
+                                        <p>Gracias por usar nuestra aplicación por favor confirma tu cuenta ingresando en el siguiente enlace</p>
+                                        <a href=http://localhost:8081/confirm/${newUser.password}> Haz click aquí </a>
+                                        </div>`,
+                            
+                        });
+                        return res.send('okey');
+                    })
                 }
             })
         // .then(send => console.log(send))
