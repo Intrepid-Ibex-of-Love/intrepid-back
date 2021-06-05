@@ -64,6 +64,11 @@ export class User {
     })
     status: string 
 
+    // @Column({
+    //     type: 'decimal'
+    // })
+    // confirmation_code: string;
+
     @OneToMany(() => Product, product => product.id)
     products: Product[];
 }

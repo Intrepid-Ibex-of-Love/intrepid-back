@@ -5,9 +5,12 @@ import { UserController } from "./UserController";
 import * as jwt from "jsonwebtoken"
 
 import * as bcrypt from 'bcrypt';
+import { SendVerifyController } from "./sendVerifyController"
+import * as nodemailer from 'nodemailer';
 
 export class AuthController {
     userController = new UserController()
+    sendVerifyController = new SendVerifyController()
     login(req, res) {
         const { email, password } = req.body;
         return this.userController.oneEmail({ email }, res)
@@ -34,6 +37,25 @@ export class AuthController {
 
     }
 
+    verifyUser(req, res) {
+        let { confirmation_code } = req.body;
+        this.userController.oneConfirmationCode({ confirmation_code }, res)
+            .then((user) => {
+                if (!user) {
+                    return res.status(404).send({ message: "User Not found." });
+                }
+
+                user.status = "verify";
+                user.save((err) => {
+                    if (err) {
+                        res.status(500).send({ message: err });
+                        return;
+                    }
+                });
+            })
+            .catch((e) => console.log("error", e));
+    }
+
     register(req, res) {
         let { name, last_name, email, post_code, password, role } = req.body;
         this.userController.oneEmail({ email }, res)
@@ -44,10 +66,17 @@ export class AuthController {
                     const passwordHash = bcrypt.hashSync(password, 4);
                     this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
                         .then(newUser => {
-                            return res.send("usuario creado con éxito")
+                            this.sendVerifyController.sendConfirmationEmail(
+                                newUser.name,
+                                newUser.email,
+                                newUser.password
+
+                            )
+                            return res.send('okey');
                         })
                 }
             })
+        // .then(send => console.log(send))
 
 
 

@@ -11,6 +11,11 @@ export const AuthRouter = [{
     route: "/register",
     controller : AuthController,
     action: "register"
+},{
+    method: "post",
+    route: "/verify/:confirmationCode",
+    controller : AuthController,
+    action: "verifyUser"
 }]
 
 
