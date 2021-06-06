@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "reflect-metadata";
 import { createConnection, getConnection } from "typeorm";
 import * as express from "express";
@@ -8,7 +9,6 @@ import { AuthRouter } from "./routes/auth.routes";
 import { CategoryRouter } from "./routes/category.routes";
 import { ProductRouter } from "./routes/product.routes";
 import * as cors from 'cors';
-
 
 createConnection()
 

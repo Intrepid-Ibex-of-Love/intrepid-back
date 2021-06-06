@@ -90,13 +90,5 @@ export class AuthController {
                 }
             })
         // .then(send => console.log(send))
-
-
-
-
-
-
-
-
     }
 }
