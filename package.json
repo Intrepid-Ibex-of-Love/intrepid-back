@@ -23,6 +23,6 @@
       "typeorm": "0.2.32"
    },
    "scripts": {
-      "start": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/server.ts"
+      "start": "ts-node src/server.ts"
    }
 }
