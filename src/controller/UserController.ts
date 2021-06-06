@@ -35,9 +35,4 @@ export class UserController {
         let userToRemove = await this.userRepository.findOne(request.params.id);
         await this.userRepository.remove(userToRemove);
     }
-
-    async update(request: Request, response: Response): Promise<any>{
-        let user = this.userRepository.findOne(request.params.id);
-        return this.userRepository.save(request);
-    }
 }

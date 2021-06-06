@@ -22,5 +22,4 @@ export class CategoryController {
         let userToRemove = await this.categoryRepository.findOne(request.params.id);
         await this.categoryRepository.remove(userToRemove);
     }
-
 }
