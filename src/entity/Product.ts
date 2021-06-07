@@ -7,7 +7,7 @@ import { User } from "./User";
 export class Product {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    id_product: number;
 
     @Column({
         type: 'varchar',
