@@ -21,6 +21,11 @@ export const UserRouter = [{
     controller: UserController,
     action: "update"
 }, {
+    method: "get",
+    route: "/confirm/:hash",
+    controller: UserController,
+    action: "verify"
+},{
     method: "delete",
     route: "/users/:id",
     controller: UserController,

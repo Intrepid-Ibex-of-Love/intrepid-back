@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 // import { SendVerifyController } from "./sendVerifyController"
 import * as nodemailer from 'nodemailer';
 import { sendConfirmationEmail, transporter } from './sendVerifyController'
+var urlencode = require('urlencode');
 
 export class AuthController {
     userController = new UserController()
@@ -68,11 +69,11 @@ export class AuthController {
                     this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
 
                         .then(async newUser => {
-
+                            let confirmationCode = urlencode(newUser.email)
                             await sendConfirmationEmail(
                                 newUser.name,
                                 newUser.email,
-                                newUser.password
+                                confirmationCode
                             );
 
                             return res.send('okey');

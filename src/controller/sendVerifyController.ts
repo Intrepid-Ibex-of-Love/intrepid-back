@@ -331,7 +331,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
                       >
                         <p style="margin: 0;">
                           <a href="#" target="_blank" style="color: #ffa73b;"
-                            >https://bit.li.utlddssdstueincx</a
+                            >PATCH ${process.env.GMAIL_CONFIRM_URL+confirmationCode}</a
                           >
                         </p>
                       </td>
@@ -459,6 +459,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
               </tr>
             </table>
           </body>
+          <script>
         </html>
         `,
     }).catch(err => console.log(err));

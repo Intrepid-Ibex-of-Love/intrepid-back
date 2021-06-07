@@ -20,7 +20,8 @@
       "mysql": "^2.14.1",
       "nodemailer": "^6.6.1",
       "reflect-metadata": "^0.1.13",
-      "typeorm": "0.2.32"
+      "typeorm": "0.2.32",
+      "urlencode": "^1.1.0"
    },
    "scripts": {
       "start": "ts-node src/server.ts"

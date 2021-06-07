@@ -1,6 +1,7 @@
 import { createQueryBuilder, getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
+var urlencode = require('urlencode');
 
 export class UserController {
 
@@ -18,6 +19,11 @@ export class UserController {
 
     async oneEmail(request: Request, response: Response): Promise<any> {
         let userFound = await this.userRepository.findOne({ email: request.email });
+        return userFound;
+    }
+
+    async findOneThing(request: Request, response: Response): Promise<any> {
+        let userFound = await this.userRepository.findOne(request);
         return userFound;
     }
 
@@ -41,6 +47,16 @@ export class UserController {
         const user = await this.one(request, response);
         this.userRepository.merge(user, request.body);
         const results = await this.userRepository.save(user);
+        return results;
+    }
+
+    async verify(request: Request, response: Response) {
+        const user = await this.findOneThing({ email: urlencode.decode(request.params.hash) }, response);
+        this.userRepository.merge(user, { status: "verify" });
+        const results = await this.userRepository.save(user);
+        response.writeHead(301,
+            { Location: 'http://localhost:4200/user-profile' }
+        );
         return results;
     }
 
