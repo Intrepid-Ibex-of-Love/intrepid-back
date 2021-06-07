@@ -68,17 +68,6 @@ export class AuthController {
                     this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
 
                         .then(async newUser => {
-                            // await transporter.sendMail({
-                            //     from: `<${process.env.GMAIL_USER}>`,
-                            //         to: `<${newUser.email}>`,
-                            //         subject: "Por favor confirma tu email",
-                            //         html: `<h1>Confirmación de Email</h1>
-                            //                 <h2>Hola ${name}</h2>
-                            //                 <p>Gracias por usar nuestra aplicación por favor confirma tu cuenta ingresando en el siguiente enlace</p>
-                            //                 <a href=http://localhost:8081/confirm/${newUser.password}> Haz click aquí </a>
-                            //                 </div>`,
-
-                            // });
 
                             await sendConfirmationEmail(
                                 newUser.name,

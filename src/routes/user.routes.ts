@@ -17,9 +17,9 @@ export const UserRouter = [{
     action: "save"
 }, {
     method: "patch",
-    route: "/users:id",
+    route: "/users/:id",
     controller: UserController,
-    action: "save"
+    action: "update"
 }, {
     method: "delete",
     route: "/users/:id",

@@ -11,23 +11,24 @@ export class UserController {
     }
 
     // async one(request: Request, response: Response, next: NextFunction) {
-        async one(request: Request, response: Response) {
-        // return this.userRepository.findOne(request.params.id);
+    async one(request: Request, response: Response) {
+        // return this.userRepository.findOne(83);
         return this.userRepository.findOne(request.params.id);
     }
 
     async oneEmail(request: Request, response: Response): Promise<any> {
-        let userFound = await this.userRepository.findOne({email: request.email});
+        let userFound = await this.userRepository.findOne({ email: request.email });
         return userFound;
     }
 
     async oneConfirmationCode(request: Request, response: Response): Promise<any> {
-        let userFound = await this.userRepository.findOne({password: request.confirmationCode});
+        let userFound = await this.userRepository.findOne({ password: request.confirmationCode });
         return userFound;
     }
 
     // async save(request: Request, response: Response, next: NextFunction) {
     async save(request: Request, response: Response): Promise<any> {
+        console.log(request);
         return this.userRepository.save(request);
     }
 
@@ -35,4 +36,12 @@ export class UserController {
         let userToRemove = await this.userRepository.findOne(request.params.id);
         await this.userRepository.remove(userToRemove);
     }
+
+    async update(request: Request, response: Response) {
+        const user = await this.one(request, response);
+        this.userRepository.merge(user, request.body);
+        const results = await this.userRepository.save(user);
+        return results;
+    }
+
 }
