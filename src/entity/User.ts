@@ -70,6 +70,6 @@ export class User {
     // })
     // confirmation_code: string;
 
-    @OneToMany(() => Product, product => product.id, {cascade: true})
+    @OneToMany(() => Product, product => product.id_product, {cascade: true})
     products: Product[];
 }
