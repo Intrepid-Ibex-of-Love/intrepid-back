@@ -19,24 +19,28 @@ export class ProductController {
     async save(request: Request, response: Response, next: NextFunction) {
 
         let userId = request.body.userId;
-
-        let createProduct = await createQueryBuilder()
-                        .insert()
-                        .into(Product)
-                        .values(
-                            {
-                            product_name: request.body.name,
-                            description: request.body.description,
-                            day_start: request.body.day_start,
-                            day_finish: request.body.day_finish,
-                            userId: userId
-                            }
-                        )
-                        .execute();
-
-        /* productSave.productMedias = [];
-        productSave.productMedias.push({uri:'a' ,productId:productSave.id}); */
-        return createProduct;
+        if(request.body.product_name===''){
+            return response.status(418).send('Soy una tetera');
+        }else{
+            let createProduct = await createQueryBuilder()
+                            .insert()
+                            .into(Product)
+                            .values(
+                                {
+                                product_name: request.body.product_name,
+                                description: request.body.description,
+                                day_start: request.body.day_start,
+                                day_finish: request.body.day_finish,
+                                userId: userId
+                                }
+                            )
+                            .execute();
+    
+            /* productSave.productMedias = [];
+            productSave.productMedias.push({uri:'a' ,productId:productSave.id}); */
+            return createProduct;
+            
+        }
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
