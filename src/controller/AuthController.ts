@@ -18,12 +18,19 @@ export class AuthController {
         return this.userController.oneEmail({ email }, res)
             .then(userFound => {
                 if (!userFound) {
-                    return res.status(404).send('email o usuario incorrectos');
+                    return res.json({
+                        status: false,
+                        error: "¡usuario o contraseña incorrectos!"
+                    });
                 }
 
                 if (userFound.status == "no_verify") {
-                    return res.status(401).send({
-                        message: "Cuenta pendiente. Verifique su correo electrónico!",
+                    // res.status(403).send({
+                    //     message: "Cuenta pendiente. Verifique su correo electrónico!",
+                    // });
+                    return res.json({
+                        status: false,
+                        error: "Cuenta pendiente. Verifique su correo electrónico!"
                     });
                 }
 
@@ -33,8 +40,14 @@ export class AuthController {
                     let user = { user: userFound, token: token }
                     res.status(200).send(user);
                 } else {
-                    res.status(400).send('¡usuario o contraseña incorrectos!');
+                    return res.json({
+                        status: false,
+                        error: "¡usuario o contraseña incorrectos!"
+                    });
                 }
+            })
+            .catch(error => {
+                return res.status(400).json(error)
             })
 
     }
@@ -55,31 +68,49 @@ export class AuthController {
                     }
                 });
             })
-            .catch((e) => console.log("error", e));
+            .catch(error => {
+                return res.status(400).json(error)
+            })
     }
 
     register(req, res) {
-        let { name, last_name, email, post_code, password, role } = req.body;
-        this.userController.oneEmail({ email }, res)
-            .then(userFound => {
-                if (userFound) {
-                    return res.send('Ya hay una cuenta registrada con este email!')
-                } else {
-                    const passwordHash = bcrypt.hashSync(password, 4);
-                    this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
+        if (typeof (req.body) === undefined) {
+            return res.sendStatus(400)
+        } else {
+            let { name, last_name, email, post_code, password, role } = req.body;
+            this.userController.oneEmail({ email }, res)
+                .then(userFound => {
+                    if (userFound) {
+                        // return res.status(400).send('Ya hay una cuenta registrada con este email!')
+                        return res.json({
+                            status: false,
+                            error: "Ya hay una cuenta registrada con este email!"
+                        });
+                    } else {
+                        const passwordHash = bcrypt.hashSync(password, 4);
+                        this.userController.save({ name, last_name, email, post_code, password: passwordHash, role }, res)
+                            .then(async newUser => {
+                                let confirmationCode = urlencode(newUser.email)
+                                await sendConfirmationEmail(
+                                    newUser.name,
+                                    newUser.email,
+                                    confirmationCode
+                                );
+                                // return res.send('okey');
+                                return res.json({
+                                    status: true,
+                                    error: "Usuario creado con éxito!"
+                                });
+                            })
+                            .catch(error => {
+                                return res.json({
+                                    status: false,
+                                    error: "Comprueba todos los campos"
+                                });
+                            })
+                    }
+                })
+        }
 
-                        .then(async newUser => {
-                            let confirmationCode = urlencode(newUser.email)
-                            await sendConfirmationEmail(
-                                newUser.name,
-                                newUser.email,
-                                confirmationCode
-                            );
-
-                            return res.send('okey');
-                        })
-                }
-            })
-        // .then(send => console.log(send))
     }
 }

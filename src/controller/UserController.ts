@@ -54,9 +54,10 @@ export class UserController {
         const user = await this.findOneThing({ email: urlencode.decode(request.params.hash) }, response);
         this.userRepository.merge(user, { status: "verify" });
         const results = await this.userRepository.save(user);
-        response.writeHead(301,
-            { Location: 'http://localhost:4200/user-profile' }
-        );
+        // response.writeHead(301,
+        //     { Location: 'http://localhost:4200/user-profile' }
+        // );
+        response.redirect('http://localhost:4200/user-profile')
         return results;
     }
 
