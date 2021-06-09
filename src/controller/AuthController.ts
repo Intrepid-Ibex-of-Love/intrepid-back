@@ -54,7 +54,7 @@ export class AuthController {
 
     verifyUser(req, res) {
         let { confirmation_code } = req.body;
-        this.userController.oneConfirmationCode({ confirmation_code }, res)
+        this.userController.verify({ confirmation_code }, res)
             .then((user) => {
                 if (!user) {
                     return res.status(404).send({ message: "User Not found." });

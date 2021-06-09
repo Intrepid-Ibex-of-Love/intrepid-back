@@ -27,10 +27,6 @@ export class UserController {
         return userFound;
     }
 
-    async oneConfirmationCode(request: Request, response: Response): Promise<any> {
-        let userFound = await this.userRepository.findOne({ password: request.confirmationCode });
-        return userFound;
-    }
 
     // async save(request: Request, response: Response, next: NextFunction) {
     async save(request: Request, response: Response): Promise<any> {
@@ -54,9 +50,6 @@ export class UserController {
         const user = await this.findOneThing({ email: urlencode.decode(request.params.hash) }, response);
         this.userRepository.merge(user, { status: "verify" });
         const results = await this.userRepository.save(user);
-        // response.writeHead(301,
-        //     { Location: 'http://localhost:4200/user-profile' }
-        // );
         response.redirect('http://localhost:4200/user-profile')
         return results;
     }
