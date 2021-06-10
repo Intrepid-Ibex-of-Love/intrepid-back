@@ -56,7 +56,6 @@ export class User {
         default: "user"
     })
     role: string;
-
     
     @Column({
         type: "enum",

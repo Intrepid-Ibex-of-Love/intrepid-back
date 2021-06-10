@@ -23,8 +23,7 @@ export const ProductRouter = [{
     route: "/products/user/:id",
     controller: ProductController, 
     action: "getProductByUser"
-}
-,
+},
 {
     method: "delete",
     route: "/products/:id",

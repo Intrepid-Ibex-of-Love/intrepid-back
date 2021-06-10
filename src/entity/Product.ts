@@ -20,6 +20,13 @@ export class Product {
         length: 200,
         nullable: true
     })
+    category: string;
+
+    @Column({
+        type: 'varchar',
+        length: 200,
+        nullable: true
+    })
     description: string;
 
     @Column({

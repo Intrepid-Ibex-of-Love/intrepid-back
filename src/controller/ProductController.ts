@@ -17,7 +17,6 @@ export class ProductController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-
         let userId = request.body.userId;
         if(request.body.product_name===''){
             return response.status(418).send('Soy una tetera');
@@ -28,6 +27,7 @@ export class ProductController {
                             .values(
                                 {
                                 product_name: request.body.product_name,
+                                category: request.body.category,
                                 description: request.body.description,
                                 day_start: request.body.day_start,
                                 day_finish: request.body.day_finish,
