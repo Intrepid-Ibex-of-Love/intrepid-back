@@ -18,6 +18,7 @@ export class UserController {
     }
 
     async oneEmail(request: Request, response: Response): Promise<any> {
+        console.log('dentro de Onmail',request.email)
         let userFound = await this.userRepository.findOne({ email: request.email });
         return userFound;
     }
@@ -51,6 +52,14 @@ export class UserController {
         this.userRepository.merge(user, { status: "verify" });
         const results = await this.userRepository.save(user);
         response.redirect('http://localhost:4200/user-profile')
+        return results;
+    }
+
+    async resetPass(request: Request, response: Response) {
+        const user = await this.findOneThing({ email: request.email }, response);
+        this.userRepository.merge(user, { password: request.password });
+        const results = await this.userRepository.save(user);
+        // response.redirect('http://localhost:4200/user-profile')
         return results;
     }
 

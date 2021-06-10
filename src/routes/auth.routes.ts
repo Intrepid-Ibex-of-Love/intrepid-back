@@ -13,6 +13,11 @@ export const AuthRouter = [{
     action: "register"
 },{
     method: "post",
+    route: "/reset-pass",
+    controller : AuthController,
+    action: "resetPassword"
+},{
+    method: "post",
     route: "/verify/:confirmationCode",
     controller : AuthController,
     action: "verifyUser"
