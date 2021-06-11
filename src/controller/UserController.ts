@@ -18,7 +18,6 @@ export class UserController {
     }
 
     async oneEmail(request: Request, response: Response): Promise<any> {
-        console.log('dentro de Onmail',request.email)
         let userFound = await this.userRepository.findOne({ email: request.email });
         return userFound;
     }
@@ -48,7 +47,7 @@ export class UserController {
     }
 
     async verify(request: Request, response: Response) {
-        const user = await this.findOneThing({ email: urlencode.decode(request.params.hash) }, response);
+        const user = await this.findOneThing({ email: urlencode.decode(request.confirm_code) }, response);
         this.userRepository.merge(user, { status: "verify" });
         const results = await this.userRepository.save(user);
         response.redirect('http://localhost:4200/user-profile')

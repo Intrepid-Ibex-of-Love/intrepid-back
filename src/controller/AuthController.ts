@@ -53,12 +53,15 @@ export class AuthController {
     }
 
     verifyUser(req, res) {
-        let { confirmation_code } = req.body;
-        this.userController.verify({ confirmation_code }, res)
+        console.log(req)
+        let  confirmation_code  = req.params.confirmationCode;
+        console.log({ confirmation_code })
+        this.userController.verify( {confirm_code: confirmation_code} , res)
             .then((user) => {
                 if (!user) {
                     return res.status(404).send({ message: "User Not found." });
                 }
+                
 
                 user.status = "verify";
                 user.save((err) => {
