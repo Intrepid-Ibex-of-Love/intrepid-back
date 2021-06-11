@@ -4,8 +4,8 @@
    "description": "Perfect API for a perfect platform",
    "devDependencies": {
       "@types/node": "^8.10.66",
-      "ts-node": "3.3.0",
-      "typescript": "3.3.3333"
+      "ts-node": "^3.3.0",
+      "typescript": "^3.3.3333"
    },
    "dependencies": {
       "@types/bcrypt": "^5.0.0",
