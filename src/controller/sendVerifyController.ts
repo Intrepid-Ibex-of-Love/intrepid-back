@@ -160,7 +160,7 @@ export const resetPassword = (name, email, newPassword) => {
           <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <!-- LOGO -->
             <tr>
-              <td bgcolor="#FFA73B" align="center">
+              <td bgcolor="#7c3bff" align="center">
                 <table
                   border="0"
                   cellpadding="0"
@@ -180,7 +180,7 @@ export const resetPassword = (name, email, newPassword) => {
             </tr>
             <tr>
               <td
-                bgcolor="#FFA73B"
+                bgcolor="#7c3bff"
                 align="center"
                 style="padding: 0px 10px 0px 10px;"
               >
@@ -266,7 +266,7 @@ export const resetPassword = (name, email, newPassword) => {
                                 <td
                                   align="center"
                                   style="border-radius: 3px;"
-                                  bgcolor="#FFA73B"
+                                  bgcolor="#7c3bff"
                                 >
                                   <h1>${newPassword}</h1>
                                 </td>
@@ -357,7 +357,7 @@ export const resetPassword = (name, email, newPassword) => {
                         ¿Necesita más ayuda?
                       </h2>
                       <p style="margin: 0;">
-                        <a href="#" target="_blank" style="color: #ffa73b;"
+                        <a href="#" target="_blank" style="color: #7c3bff;"
                           >Contácte con el soporte técnico</a
                         >
                       </p>
@@ -548,7 +548,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
               <!-- LOGO -->
               <tr>
-                <td bgcolor="#FFA73B" align="center">
+                <td bgcolor="#7c3bff" align="center">
                   <table
                     border="0"
                     cellpadding="0"
@@ -568,7 +568,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
               </tr>
               <tr>
                 <td
-                  bgcolor="#FFA73B"
+                  bgcolor="#7c3bff"
                   align="center"
                   style="padding: 0px 10px 0px 10px;"
                 >
@@ -656,7 +656,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
                                   <td
                                     align="center"
                                     style="border-radius: 3px;"
-                                    bgcolor="#FFA73B"
+                                    bgcolor="#7c3bff"
                                   >
                                     <a
                                       href="${process.env.GMAIL_CONFIRM_URL+confirmationCode}"
@@ -670,7 +670,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
                                         text-decoration: none;
                                         padding: 15px 25px;
                                         border-radius: 2px;
-                                        border: 1px solid #ffa73b;
+                                        border: 1px solid #7c3bff;
                                         display: inline-block;
                                       "
                                       >Confirmar Cuenta</a
@@ -717,7 +717,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
                         "
                       >
                         <p style="margin: 0;">
-                          <a href="#" target="_blank" style="color: #ffa73b;"
+                          <a href="#" target="_blank" style="color: #7c3bff;"
                             >${process.env.GMAIL_CONFIRM_URL+confirmationCode}</a
                           >
                         </p>
@@ -803,7 +803,7 @@ export const sendConfirmationEmail = (name, email, confirmationCode) => {
                           ¿Necesita más ayuda?
                         </h2>
                         <p style="margin: 0;">
-                          <a href="#" target="_blank" style="color: #ffa73b;"
+                          <a href="#" target="_blank" style="color: #7c3bff;"
                             >Contácte con el soporte técnico</a
                           >
                         </p>
