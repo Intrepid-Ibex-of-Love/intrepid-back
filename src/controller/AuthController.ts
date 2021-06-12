@@ -7,7 +7,7 @@ import * as jwt from "jsonwebtoken"
 import * as bcrypt from 'bcrypt';
 // import { SendVerifyController } from "./sendVerifyController"
 import * as nodemailer from 'nodemailer';
-import { sendConfirmationEmail, transporter } from './sendVerifyController'
+import { sendConfirmationEmail, transporter, resetPassword } from './sendVerifyController'
 var urlencode = require('urlencode');
 
 export class AuthController {
@@ -53,12 +53,15 @@ export class AuthController {
     }
 
     verifyUser(req, res) {
-        let { confirmation_code } = req.body;
-        this.userController.oneConfirmationCode({ confirmation_code }, res)
+        console.log(req)
+        let  confirmation_code  = req.params.confirmationCode;
+        console.log({ confirmation_code })
+        this.userController.verify( {confirm_code: confirmation_code} , res)
             .then((user) => {
                 if (!user) {
                     return res.status(404).send({ message: "User Not found." });
                 }
+                
 
                 user.status = "verify";
                 user.save((err) => {
@@ -112,5 +115,39 @@ export class AuthController {
                 })
         }
 
+    }
+
+    resetPassword(req, res) {
+        if (typeof (req.body) === undefined) {
+            return res.sendStatus(400)
+        } else {
+            let email= req.body.email
+            var randomPassword = Math.random().toString(36).slice(-8);
+            let passwordHash = bcrypt.hashSync(randomPassword, 4);
+            this.userController.resetPass({email:email,password:passwordHash},res)
+            .then(async user =>{
+                if (!user) {
+                    return res.status(404).send({ message: "User Not found." });
+                }else{
+                    await resetPassword(
+                        user.name,
+                        user.email,
+                        randomPassword
+                    );
+
+                    return res.json({
+                        status: true,
+                        error: "Se ha reseteado la contraseña con éxito, revisa tu email"
+                    });
+                }
+            })
+            .catch(() => {
+                return res.json({
+                    status: false,
+                    error: "No existe una cuenta con ese email"
+                });
+            })
+            
+        }
     }
 }

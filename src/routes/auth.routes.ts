@@ -13,30 +13,12 @@ export const AuthRouter = [{
     action: "register"
 },{
     method: "post",
+    route: "/reset-pass",
+    controller : AuthController,
+    action: "resetPassword"
+},{
+    method: "get",
     route: "/verify/:confirmationCode",
     controller : AuthController,
     action: "verifyUser"
 }]
-
-
-// export const UserRouter = [{
-//     method: "get",
-//     route: "/users",
-//     controller: AuthController,
-//     action: "all"
-// }, {
-//     method: "get",
-//     route: "/users/:id",
-//     controller: AuthController,
-//     action: "one"
-// }, {
-//     method: "post",
-//     route: "/users",
-//     controller: AuthController,
-//     action: "save"
-// }, {
-//     method: "delete",
-//     route: "/users/:id",
-//     controller: AuthController,
-//     action: "remove"
-// }];
