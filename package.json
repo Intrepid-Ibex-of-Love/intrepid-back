@@ -25,7 +25,7 @@
       "urlencode": "^1.1.0"
    },
    "scripts": {
-      "start": "NODE_PATH=./build node build/index.js",
+      "start": "ts-node src/server.ts",
       "dev": "nodemon src/server.ts",
       "build": "tsc -p ."
    }

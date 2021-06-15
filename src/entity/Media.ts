@@ -10,7 +10,12 @@ export class Media {
     @Column({
         type: 'blob',
     })
-    uri: string;
+    photo: string;
+
+    @Column({
+        type: "int",
+    })
+    productId: number
 
     @ManyToOne(() => Product, product => product.medias)
     product: Product;

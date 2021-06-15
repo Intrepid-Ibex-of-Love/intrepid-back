@@ -2,11 +2,14 @@ import { createQueryBuilder, getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../entity/Product";
 import { User } from "../entity/User";
+import { Media } from "../entity/Media";
+import { create } from "domain";
 
 export class ProductController {
 
     private productRepository = getRepository(Product);
     userRepository = getRepository(User);
+    mediaRepository = getRepository(Media);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.productRepository.find();
@@ -22,7 +25,8 @@ export class ProductController {
         if(request.body.product_name===''){
             return response.status(418).send('Soy una tetera');
         }else{
-            let createProduct = await createQueryBuilder()
+            //let productSave = await this.productRepository.save(request.body);
+            let productSave = await createQueryBuilder()
                             .insert()
                             .into(Product)
                             .values(
@@ -33,12 +37,25 @@ export class ProductController {
                                 day_finish: request.body.day_finish,
                                 userId: userId
                                 }
-                            )
-                            .execute();
-    
-            /* productSave.productMedias = [];
-            productSave.productMedias.push({uri:'a' ,productId:productSave.id}); */
-            return createProduct;
+                            ).execute(); 
+                            
+            let productSearch = await this.productRepository.findOne(
+                                { where:
+                                    { 
+                                        product_name: request.body.product_name 
+                                    }
+                                });
+
+            let product = await createQueryBuilder()
+                        .insert()
+                        .into(Media)
+                        .values(
+                            {
+                                photo: request.body.medias,
+                                productId: productSearch.id
+                            }
+                        ).execute();
+            return productSave;
             
         }
     }
@@ -53,12 +70,12 @@ export class ProductController {
         
         let userId = request.params.id;
 
-        let products = await createQueryBuilder(Product, "product")
-                        .select("*")
-                        .leftJoin(User, "user", "product.userId = user.id")
-                        .where(`product.userId='${userId}'`)
-                        .getRawMany();
-
+        let products = await 
+                    createQueryBuilder(Product, "product")
+                    .select("*")
+                    .leftJoin(User, "user", "product.userId = user.id")
+                    .where(`product.userId='${userId}'`)
+                    .getRawMany(); 
         return products;
 
     }

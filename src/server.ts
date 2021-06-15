@@ -17,10 +17,12 @@ createConnection()
         const port = 3002;
         // create express app
         const app = express();
+
+        /** Ampliación del tamaño del body parser */
+        app.use(bodyParser({limit: '50mb'}));
         app.use(bodyParser.json());
         app.use(cors());
 
-        // register express routes from defined application routes
         UserRouter.forEach(route => {
             (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
                 const result = (new (route.controller as any))[route.action](req, res, next);
