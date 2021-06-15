@@ -44,7 +44,7 @@ export class ProductController {
 
     async remove(request: Request, response: Response, next: NextFunction) {
         let productToRemove = await this.productRepository.findOne(request.params.id);
-        await this.productRepository.remove(productToRemove);
+        return await this.productRepository.remove(productToRemove);
     }
 
     async getProductByUser(request: Request, response: Response, next: NextFunction){
@@ -56,12 +56,12 @@ export class ProductController {
                         .from(Product, "product")
                         .where(`product.userId='${userId}'`)
                         .getRawMany();
-                        
+
         return products;
 
     }
 
-    async edit(request: Request, response: Response, next: NextFunction){
+    async update(request: Request, response: Response, next: NextFunction){
         
         let product = await this.productRepository.findOne(request.params.id);
 
@@ -71,7 +71,6 @@ export class ProductController {
         
         return productEdit;
         
-
     }
 
 }

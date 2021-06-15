@@ -30,4 +30,10 @@ export const ProductRouter = [{
     route: "/products/:id",
     controller: ProductController,
     action: "remove"
+},
+{
+    method: "put",
+    route: "/products",
+    controller: ProductController,
+    action: "update"
 }];
