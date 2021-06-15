@@ -1,8 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm";
 import { Category } from "./Category";
-import { Media} from "./Media";
 import { User } from "./User";
-
 @Entity()
 export class Product {
 
@@ -33,16 +31,17 @@ export class Product {
     day_finish: Date;
     
     @Column({
+        type: "blob",
+    })
+    photo: string;
+
+    @Column({
         type: "int",
     })
-    userId: number
+    userId: number;
 
     @ManyToOne(()=>User, user => user.id, {cascade: true})
     user: User;
-
-    @OneToMany(()=>Media, media => media.product, { cascade: ['insert', 'update'] })
-    public medias: Media[];
-
 
     @ManyToMany(()=>Category)
     @JoinTable()

@@ -2,21 +2,18 @@ import { createQueryBuilder, getRepository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../entity/Product";
 import { User } from "../entity/User";
-import { Media } from "../entity/Media";
-import { create } from "domain";
 
 export class ProductController {
 
     private productRepository = getRepository(Product);
     userRepository = getRepository(User);
-    mediaRepository = getRepository(Media);
 
     async all(request: Request, response: Response, next: NextFunction) {
         return this.productRepository.find();
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.productRepository.findOne(request.params.id);
+        return await this.productRepository.findOne(request.params.id);
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
@@ -35,26 +32,11 @@ export class ProductController {
                                 description: request.body.description,
                                 day_start: request.body.day_start,
                                 day_finish: request.body.day_finish,
+                                photo: request.body.photo,
                                 userId: userId
                                 }
                             ).execute(); 
-                            
-            let productSearch = await this.productRepository.findOne(
-                                { where:
-                                    { 
-                                        product_name: request.body.product_name 
-                                    }
-                                });
 
-            let product = await createQueryBuilder()
-                        .insert()
-                        .into(Media)
-                        .values(
-                            {
-                                photo: request.body.medias,
-                                productId: productSearch.id
-                            }
-                        ).execute();
             return productSave;
             
         }
@@ -67,16 +49,28 @@ export class ProductController {
 
     async getProductByUser(request: Request, response: Response, next: NextFunction){
 
-        
         let userId = request.params.id;
 
-        let products = await 
-                    createQueryBuilder(Product, "product")
-                    .select("*")
-                    .leftJoin(User, "user", "product.userId = user.id")
-                    .where(`product.userId='${userId}'`)
-                    .getRawMany(); 
+        let products = await createQueryBuilder()
+                        .select("*")
+                        .from(Product, "product")
+                        .where(`product.userId='${userId}'`)
+                        .getRawMany();
+                        
         return products;
+
+    }
+
+    async edit(request: Request, response: Response, next: NextFunction){
+        
+        let product = await this.productRepository.findOne(request.params.id);
+
+        this.productRepository.merge(product, request.body);
+        
+        let productEdit = await this.productRepository.save(product);
+        
+        return productEdit;
+        
 
     }
 
