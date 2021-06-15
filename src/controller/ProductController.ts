@@ -61,16 +61,24 @@ export class ProductController {
 
     }
 
-    async update(request: Request, response: Response, next: NextFunction){
-        
-        let product = await this.productRepository.findOne(request.params.id);
+    async update(request: Request,  response: Response, next: NextFunction){       
+        let productUpdate = await createQueryBuilder()
+                        .update(Product)
+                        .set(
+                            {
+                            product_name: request.body.product_name,
+                            description: request.body.description,
+                            day_start: request.body.day_start,
+                            day_finish: request.body.day_finish,
+                            userId: request.body.userId
+                            }
+                        )
+                        .execute();
 
-        this.productRepository.merge(product, request.body);
+                    
         
-        let productEdit = await this.productRepository.save(product);
-        
-        return productEdit;
-        
+        return productUpdate;
+
     }
 
 }
