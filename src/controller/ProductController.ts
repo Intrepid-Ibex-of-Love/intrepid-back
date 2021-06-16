@@ -67,10 +67,12 @@ export class ProductController {
                     description: request.body.description,
                     day_start: request.body.day_start,
                     day_finish: request.body.day_finish,
+                    category: request.body.category,
                     userId: request.body.userId
                 }
             )
             .execute();
+            
         return productUpdate;
 
     }
