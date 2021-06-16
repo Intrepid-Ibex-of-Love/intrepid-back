@@ -34,6 +34,13 @@ export class Product {
         type: "blob",
     })
     photo: string;
+    
+    @Column({
+        type: "varchar",
+        length: 60
+    })
+    category: string;
+
 
     @Column({
         type: "int",
@@ -46,6 +53,4 @@ export class Product {
     @ManyToMany(()=>Category)
     @JoinTable()
     categories : Category[];
-
-    
 }
