@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from "typeorm";
-import { Category } from "./Category";
+import { Entity, PrimaryGeneratedColumn, Column,  ManyToOne} from "typeorm";
 import { User } from "./User";
 @Entity()
 export class Product {
@@ -41,7 +40,6 @@ export class Product {
     })
     category: string;
 
-
     @Column({
         type: "int",
     })
@@ -49,8 +47,4 @@ export class Product {
 
     @ManyToOne(()=>User, user => user.id, {cascade: true})
     user: User;
-
-    @ManyToMany(()=>Category)
-    @JoinTable()
-    categories : Category[];
 }

@@ -59,20 +59,30 @@ export class ProductController {
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
-        let productUpdate = await createQueryBuilder()
-            .update(Product)
-            .set(
-                {
-                    product_name: request.body.product_name,
-                    description: request.body.description,
-                    day_start: request.body.day_start,
-                    day_finish: request.body.day_finish,
-                    category: request.body.category,
-                    userId: request.body.userId
-                }
-            )
-            .execute();
-            
+
+        let searchProduct = await this.productRepository.findOne(request.body.id);
+
+        if(!request.body.photo){
+            this.productRepository.merge(searchProduct, {
+                product_name: request.body.product_name,
+                description: request.body.description,
+                day_start: request.body.day_start,
+                day_finish: request.body.day_finish,
+                category: request.body.category,
+            });
+        }else{
+            this.productRepository.merge(searchProduct, {
+                product_name: request.body.product_name,
+                description: request.body.description,
+                day_start: request.body.day_start,
+                day_finish: request.body.day_finish,
+                category: request.body.category,
+            });
+
+        }
+        
+        let productUpdate = await this.productRepository.save(searchProduct);
+
         return productUpdate;
 
     }
