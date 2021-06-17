@@ -33,7 +33,8 @@ export class ProductController {
                         day_finish: request.body.day_finish,
                         category: request.body.category,
                         photo: request.body.photo,
-                        userId: userId
+                        userId: userId,
+                        requiredBy: 0
                     }
                 ).execute();
 
@@ -69,6 +70,7 @@ export class ProductController {
                 day_start: request.body.day_start,
                 day_finish: request.body.day_finish,
                 category: request.body.category,
+                requiredBy: request.body.requiredBy
             });
         }else{
             this.productRepository.merge(searchProduct, {
@@ -77,6 +79,7 @@ export class ProductController {
                 day_start: request.body.day_start,
                 day_finish: request.body.day_finish,
                 category: request.body.category,
+                requiredBy: request.body.requiredBy
             });
 
         }
@@ -86,5 +89,4 @@ export class ProductController {
         return productUpdate;
 
     }
-
 }

@@ -39,6 +39,11 @@ export class Product {
         length: 60
     })
     category: string;
+    
+    @Column({
+        type: 'int'
+    })
+    requiredBy: number;
 
     @Column({
         type: "int",
