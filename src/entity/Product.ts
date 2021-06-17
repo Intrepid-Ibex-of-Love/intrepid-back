@@ -32,7 +32,7 @@ export class Product {
     @Column({
         type: "longblob",
     })
-    photo: string;
+    photo: Buffer;
     
     @Column({
         type: "varchar",
