@@ -11,9 +11,7 @@ export class UserController {
         return this.userRepository.find();
     }
 
-    // async one(request: Request, response: Response, next: NextFunction) {
     async one(request: Request, response: Response) {
-        // return this.userRepository.findOne(83);
         return this.userRepository.findOne(request.params.id);
     }
 
@@ -28,7 +26,6 @@ export class UserController {
     }
 
 
-    // async save(request: Request, response: Response, next: NextFunction) {
     async save(request: Request, response: Response): Promise<any> {
         console.log(request);
         return this.userRepository.save(request);
