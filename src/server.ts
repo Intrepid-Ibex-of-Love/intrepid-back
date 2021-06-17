@@ -1,12 +1,11 @@
 import "dotenv/config";
 import "reflect-metadata";
-import { createConnection, getConnection } from "typeorm";
+import { createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Request, Response } from "express";
 import { UserRouter } from "./routes/user.routes";
 import { AuthRouter } from "./routes/auth.routes";
-import { CategoryRouter } from "./routes/category.routes";
 import { ProductRouter } from "./routes/product.routes";
 import * as cors from 'cors';
 

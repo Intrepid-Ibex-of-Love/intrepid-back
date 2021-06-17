@@ -30,7 +30,7 @@ export class Product {
     day_finish: Date;
     
     @Column({
-        type: "blob",
+        type: "longblob",
     })
     photo: string;
     
